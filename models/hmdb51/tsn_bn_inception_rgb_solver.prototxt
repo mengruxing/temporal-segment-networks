@@ -9,7 +9,7 @@ test_initialization: true
 display: 20
 average_loss: 20
 #snapshot: 500
-snapshot_prefix: "models/hmdb51_split_1_tsn_rgb_bn_inception"
+snapshot_prefix: "local/models/hmdb51_split_1_tsn_rgb_bn_inception"
 debug_info: false
 
 # learning rate
