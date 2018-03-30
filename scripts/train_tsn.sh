@@ -2,15 +2,18 @@
 
 DATASET=$1
 MODALITY=$2
+SPLIT=${3:-1}
 
-TOOLS=lib/caffe-action/build/install/bin
-LOG_FILE=logs/${DATASET}_${MODALITY}_split1.log
+CAFFE_PATH="../libs/caffe-action/build/install/bin"
+LOG_FILE="logs/train_${DATASET}_split_${SPLIT}_${MODALITY}.log"
+
 N_GPU=2
-MPI_BIN_DIR= /usr/local/bin/
-
+MPI_BIN_DIR=/usr/local/bin/
 
 echo "logging to ${LOG_FILE}"
 
 # ${MPI_BIN_DIR}mpirun -np $N_GPU \
-$TOOLS/caffe train --solver=models/${DATASET}/tsn_bn_inception_${MODALITY}_solver.prototxt  \
-   --weights=models/bn_inception_${MODALITY}_init.caffemodel 2>&1 | tee ${LOG_FILE}
+$CAFFE_PATH/caffe train \
+    --solver=prototxt/${DATASET}/tsn_bn_inception_${MODALITY}_solver_split_${SPLIT}.prototxt  \
+    --weights=models/init/bn_inception_${MODALITY}_init.caffemodel \
+    2>&1 | tee ${LOG_FILE}
