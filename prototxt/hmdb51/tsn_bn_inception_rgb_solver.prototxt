@@ -1,4 +1,4 @@
-net: "models/hmdb51/tsn_bn_inception_rgb_train_val.prototxt"
+net: "prototxt/hmdb51/tsn_bn_inception_rgb_train_val.prototxt"
 
 # testing parameter
 test_iter: 383
@@ -9,7 +9,7 @@ test_initialization: true
 display: 20
 average_loss: 20
 #snapshot: 500
-snapshot_prefix: "local/models/hmdb51_split_1_tsn_rgb_bn_inception"
+snapshot_prefix: "models/local/hmdb51_split_1_tsn_rgb_bn_inception"
 debug_info: false
 
 # learning rate
@@ -27,7 +27,7 @@ clip_gradients: 40
 
 # GPU setting
 solver_mode: GPU
-device_id: [0,1,2,3]
+device_id: [0]
 richness: 200
 
 
