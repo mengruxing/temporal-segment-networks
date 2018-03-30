@@ -86,9 +86,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="extract optical flows")
     parser.add_argument("src_dir")
     parser.add_argument("out_dir")
-    parser.add_argument("--num_worker", type=int, default=8)
+    parser.add_argument("--num_worker", type=int, default=1)
     parser.add_argument("--flow_type", type=str, default='tvl1', choices=['tvl1', 'warp_tvl1'])
-    parser.add_argument("--df_path", type=str, default='./lib/dense_flow/', help='path to the dense_flow toolbox')
+    parser.add_argument("--df_path", type=str, default='../libs/dense_flow/', help='path to the dense_flow toolbox')
     parser.add_argument("--out_format", type=str, default='dir', choices=['dir','zip'],
                         help='path to the dense_flow toolbox')
     parser.add_argument("--ext", type=str, default='avi', choices=['avi','mp4'], help='video file extensions')
