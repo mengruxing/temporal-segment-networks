@@ -1,7 +1,7 @@
 net: "prototxt/jhmdb/tsn_bn_inception_rgb_train_val_split_2.prototxt"
 
 # testing parameter
-test_iter: 383
+test_iter: 67
 test_interval: 500
 test_initialization: true
 
