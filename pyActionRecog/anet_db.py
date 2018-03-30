@@ -122,7 +122,7 @@ class ANetDB(object):
             raise ValueError("Unsupported database version {}".format(version))
 
         import os
-        raw_db_file = os.path.join("data/activitynet_splits",
+        raw_db_file = os.path.join("splits/activitynet_splits",
                                    "activity_net.v{}.min.json".format(version.replace('.', '-')))
 
         import json

@@ -62,8 +62,8 @@ def build_split_list(split_tuple, frame_info, split_idx, shuffle=False):
 
 ## Dataset specific split file parse
 def parse_ucf_splits():
-    class_ind = [x.strip().split() for x in open('data/ucf101_splits/classInd.txt')]
-    class_mapping = {x[1]:int(x[0])-1 for x in class_ind}
+    class_ind = [x.strip().split() for x in open('splits/ucf101_splits/classInd.txt')]
+    class_mapping = {x[1]: int(x[0])-1 for x in class_ind}
 
     def line2rec(line):
         items = line.strip().split('/')
@@ -73,18 +73,53 @@ def parse_ucf_splits():
 
     splits = []
     for i in xrange(1, 4):
-        train_list = [line2rec(x) for x in open('data/ucf101_splits/trainlist{:02d}.txt'.format(i))]
-        test_list = [line2rec(x) for x in open('data/ucf101_splits/testlist{:02d}.txt'.format(i))]
+        train_list = [line2rec(x) for x in open('splits/ucf101_splits/trainlist{:02d}.txt'.format(i))]
+        test_list = [line2rec(x) for x in open('splits/ucf101_splits/testlist{:02d}.txt'.format(i))]
         splits.append((train_list, test_list))
     return splits
 
 
 def parse_hmdb51_splits():
     # load split file
-    class_files = glob.glob('data/hmdb51_splits/*split*.txt')
+    class_files = glob.glob('splits/hmdb51_splits/*split*.txt')
 
     # load class list
-    class_list = [x.strip() for x in open('data/hmdb51_splits/class_list.txt')]
+    class_list = [x.strip() for x in open('splits/hmdb51_splits/class_list.txt')]
+    class_dict = {x: i for i, x in enumerate(class_list)}
+
+    def parse_class_file(filename):
+        # parse filename parts
+        filename_parts = filename.split('/')[-1][:-4].split('_')
+        split_id = int(filename_parts[-1][-1])
+        class_name = '_'.join(filename_parts[:-2])
+
+        # parse class file contents
+        contents = [x.strip().split() for x in open(filename).readlines()]
+        train_videos = [ln[0][:-4] for ln in contents if ln[1] == '1']
+        test_videos = [ln[0][:-4] for ln in contents if ln[1] == '2']
+
+        return class_name, split_id, train_videos, test_videos
+
+    class_info_list = map(parse_class_file, class_files)
+
+    splits = []
+    for i in xrange(1, 4):
+        train_list = [
+            (vid, class_dict[cls[0]]) for cls in class_info_list for vid in cls[2] if cls[1] == i
+        ]
+        test_list = [
+            (vid, class_dict[cls[0]]) for cls in class_info_list for vid in cls[3] if cls[1] == i
+        ]
+        splits.append((train_list, test_list))
+    return splits
+
+
+def parse_jhmdb_splits():
+    # load split file
+    class_files = glob.glob('splits/jhmdb_splits/*split*.txt')
+
+    # load class list
+    class_list = [x.strip() for x in open('splits/jhmdb_splits/class_list.txt')]
     class_dict = {x: i for i, x in enumerate(class_list)}
 
     def parse_class_file(filename):
