@@ -111,6 +111,7 @@ def eval_video(video):
     sys.stdin.flush()
     return np.array(frame_scores), label
 
+
 if args.num_worker > 1:
     pool = multiprocessing.Pool(args.num_worker, initializer=build_net)
     video_scores = pool.map(eval_video, eval_video_list)
