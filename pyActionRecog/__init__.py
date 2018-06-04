@@ -3,6 +3,7 @@ from benchmark_db import *
 
 split_parsers = dict()
 split_parsers['ucf101'] = parse_ucf_splits
+split_parsers['ucf_crimes'] = parse_ucf_crimes_splits
 split_parsers['hmdb51'] = parse_hmdb51_splits
 split_parsers['jhmdb'] = parse_jhmdb_splits
 split_parsers['jhmdb_c15'] = parse_jhmdb_splits

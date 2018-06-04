@@ -60,7 +60,7 @@ def build_split_list(split_tuple, frame_info, split_idx, shuffle=False):
     return (train_rgb_list, test_rgb_list), (train_flow_list, test_flow_list)
 
 
-## Dataset specific split file parse
+# Dataset specific split file parse
 def parse_ucf_splits():
     class_ind = [x.strip().split() for x in open('splits/ucf101_splits/classInd.txt')]
     class_mapping = {x[1]: int(x[0])-1 for x in class_ind}
@@ -75,6 +75,24 @@ def parse_ucf_splits():
     for i in xrange(1, 4):
         train_list = [line2rec(x) for x in open('splits/ucf101_splits/trainlist{:02d}.txt'.format(i))]
         test_list = [line2rec(x) for x in open('splits/ucf101_splits/testlist{:02d}.txt'.format(i))]
+        splits.append((train_list, test_list))
+    return splits
+
+
+def parse_ucf_crimes_splits():
+    class_ind = [x.strip().split() for x in open('splits/ucf_crimes_splits/classInd.txt')]
+    class_mapping = {x[1]: int(x[0])-1 for x in class_ind}
+
+    def line2rec(line):
+        items = line.strip().split('/')
+        label = class_mapping[items[0]]
+        vid = items[1].split('.')[0]
+        return vid, label
+
+    splits = []
+    for i in xrange(1, 5):
+        train_list = [line2rec(x) for x in open('splits/ucf_crimes_splits/train_{:03d}.txt'.format(i))]
+        test_list = [line2rec(x) for x in open('splits/ucf_crimes_splits/test_{:03d}.txt'.format(i))]
         splits.append((train_list, test_list))
     return splits
 
